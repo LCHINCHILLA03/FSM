@@ -117,7 +117,7 @@ module FSM_Niveles(input logic clk, reset,
               S3: begin c = {No_Agua, No_Agua}; pout = {Normal, Error};  end
               S4: begin c = {No_Agua, No_Agua}; pout = {Error, Normal};  end
               S5: begin c = {Agua, Agua};       pout = {Error, Normal};  end
-              default: begin state <= S0; end
+              default: begin state = S0; end
         endcase
 
         // output logic
