@@ -5,10 +5,10 @@ module FSM_Niveles(input logic clk, reset,
                    output logic [1:0]C, Pout);
         typedef enum logic [3:0] {S0, S1, S2, S3, S4, S5} statetype;     // Next state
         statetype state, nextstate;
-        typedef enum logic [1:0] {No_Agua, Agua} outtype;      // output
-        outtype [1:0]c;
-        typedef enum logic [1:0] {Normal, Error} errortype;
-        errortype [1:0]pout;
+        typedef enum logic {No_Agua, Agua} outtype;      // output
+        outtype c;
+        typedef enum logic {Normal, Error} errortype;
+        errortype pout;
         // state register
         always_ff  @(posedge clk, posedge reset)
             if (reset) state <= S0;
