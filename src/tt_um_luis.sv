@@ -11,11 +11,14 @@ module tt_um_luis(
     output logic [7:0]  uio_oe
 );
 
-    // Asignación fija para señales no usadas
-    assign uio_out = 8'b0;
-    assign uio_oe  = 8'b0;
+    // Usar señales no utilizadas para evitar advertencias
+    logic        unused_ena;
+    logic [7:0]  unused_uio_in;
 
-    // Módulo FSM
+    assign unused_ena     = ena;
+    assign unused_uio_in  = uio_in;
+
+    // Módulo FSM conectado
     FSM FSM1(
         .clk(clk),
         .reset(rst_n),
@@ -27,8 +30,10 @@ module tt_um_luis(
         .R1(uo_out[3:2]),
         .R2(uo_out[5:4])
     );
-        
+
+    // Asignar el resto de salidas que no se usan
     assign uo_out[7:6] = 2'b00;
+    assign uio_out     = 8'b0;
+    assign uio_oe      = 8'b0;
 
 endmodule
-
