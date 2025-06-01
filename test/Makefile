@@ -3,9 +3,9 @@
 
 # defaults
 SIM ?= icarus
-TOPLEVEL_LANG ?= verilog
+TOPLEVEL_LANG ?= systemverilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+PROJECT_SOURCES = FSM.sv FSM_1.sv FSM_Niveles.sv tt_um_luis.sv
 
 ifneq ($(GATES),yes)
 
