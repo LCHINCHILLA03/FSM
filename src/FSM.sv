@@ -41,7 +41,7 @@ module FSM(input logic clk, reset,
                     else
                         nextstate = S0;
                     end
-                    else if(NP)begin
+                       else if((NP == 2'b01) || (NP == 2'b10))begin
                         nextstate = S5;
                     end
                 S1:  if ((O != 2'b00) && (NP == 2'b00)) begin
@@ -63,7 +63,7 @@ module FSM(input logic clk, reset,
                     else
                         nextstate = S0;
                     end
-                    else if(NP)begin
+                    else if((NP == 2'b01) || (NP == 2'b10))begin
                         nextstate = S5;
                     end
                 S2: if ((O != 2'b00) && (NP == 2'b00)) begin
@@ -85,7 +85,7 @@ module FSM(input logic clk, reset,
                     else
                         nextstate = S0;
                     end
-                    else if(NP)begin
+                    else if((NP == 2'b01) || (NP == 2'b10))begin
                         nextstate = S5;
                     end
                 S3: if ((O != 2'b00) && (NP == 2'b00)) begin
@@ -107,7 +107,7 @@ module FSM(input logic clk, reset,
                     else
                         nextstate = S0;
                     end
-                    else if(NP)begin
+                    else if((NP == 2'b01) || (NP == 2'b10))begin
                         nextstate = S5;
                     end
                 S4: if ((O != 2'b00) && (NP == 2'b00)) begin
@@ -129,7 +129,7 @@ module FSM(input logic clk, reset,
                     else
                         nextstate = S0;
                     end
-                    else if(NP)begin
+                    else if((NP == 2'b01) || (NP == 2'b10))begin
                         nextstate = S5;
                     end
                 S5: if ((O != 2'b00) && (NP == 2'b00)) begin
@@ -151,7 +151,7 @@ module FSM(input logic clk, reset,
                     else
                         nextstate = S0;
                     end
-                    else if(NP)begin
+                    else if((NP == 2'b01) || (NP == 2'b10))begin
                         nextstate = S5;
                     end
                 default: nextstate = S0;  
