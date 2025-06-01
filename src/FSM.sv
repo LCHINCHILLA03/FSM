@@ -7,21 +7,22 @@ module FSM(
     output logic [1:0] E
 );
     logic [1:0] NP, O;
+
+    // Definir valores simbólicos
+    localparam [1:0] Stop = 2'b00;
+    localparam [1:0] Agua = 2'b11;
+
     // FSM Moore
     FSM_Niveles Nivel_Agua(.clk(clk), .reset(reset), .A(A), .P(P), .C(O), .Pout(NP));
 
-    // Coding states
     typedef enum logic [2:0] {S0, S1, S2, S3, S4, S5} statetype;
     statetype state, nextstate;
 
-    // coding outs as logic vectors (2 bits)
     logic [1:0] salida_1, salida_2;
 
-    // coding errors
     typedef enum logic [1:0]{Error=2'b11, NE=2'b00} errortype;
     errortype error;
 
-    // Registry
     always_ff @(posedge clk or posedge reset) begin
         if (reset) 
             state <= S0;
@@ -29,7 +30,6 @@ module FSM(
             state <= nextstate;
     end
 
-    // Next state logic
     always_comb begin
         case (state)
             S0, S1, S2, S3, S4, S5: begin
@@ -43,33 +43,31 @@ module FSM(
                 end else if (NP != 2'b00) begin
                     nextstate = S5;
                 end else begin
-                    nextstate = S0; // fallback
+                    nextstate = S0;
                 end
             end
             default: nextstate = S0;
         endcase
     end
 
-    // Output logic
     always_comb begin
-        // Defaults
-        salida_1 = 2'b00;  // Stop
-        salida_2 = 2'b00;  // Stop
+        salida_1 = Stop;
+        salida_2 = Stop;
         error = NE;
 
         case (state)
             S0: begin
-                salida_1 = 2'b00; // Stop
-                salida_2 = 2'b00; // Stop
+                salida_1 = Stop;
+                salida_2 = Stop;
                 error = NE;
             end
             S1: begin
                 if (G1 == 2'b01) begin
-                    salida_1 = {Stop, Agua};  // salida_1[1]=Agua, salida_1[0]=Stop
-                    salida_2 = 2'b00;         // Stop
+                    salida_1 = {Stop[1], Agua[0]};  // o simplemente salida_1 = {Stop[1], Agua[0]}; si tiene sentido para ti
+                    salida_2 = Stop;
                 end else if (G1 == 2'b10) begin
-                    salida_1 = {Agua, Stop};  // salida_1[1]=Stop, salida_1[0]=Agua
-                    salida_2 = 2'b00;         // Stop
+                    salida_1 = {Agua[1], Stop[0]};
+                    salida_2 = Stop;
                 end
                 error = NE;
             end
@@ -80,22 +78,21 @@ module FSM(
             end
             S3: begin
                 if (G2 == 2'b01) begin
-                    salida_1 = 2'b00;         // Stop
-                    salida_2 = {Stop, Agua};
+                    salida_1 = Stop;
+                    salida_2 = {Stop[1], Agua[0]};
                 end else if (G2 == 2'b10) begin
-                    salida_1 = 2'b00;         // Stop
-                    salida_2 = {Agua, Stop};
+                    salida_1 = Stop;
+                    salida_2 = {Agua[1], Stop[0]};
                 end
                 error = NE;
             end
             S4: begin
-                // Corrección lógica según condiciones originales:
                 if (G1 == 2'b01 || G2 == 2'b01) begin
-                    salida_1 = {Stop, Agua};
-                    salida_2 = {Stop, Agua};
+                    salida_1 = {Stop[1], Agua[0]};
+                    salida_2 = {Stop[1], Agua[0]};
                 end else if (G1 == 2'b10 || G2 == 2'b10) begin
-                    salida_1 = {Agua, Stop};
-                    salida_2 = {Agua, Stop};
+                    salida_1 = {Agua[1], Stop[0]};
+                    salida_2 = {Agua[1], Stop[0]};
                 end else if (G1 == 2'b11 || G2 == 2'b11) begin
                     salida_1 = {Agua, Agua};
                     salida_2 = {Agua, Agua};
@@ -103,13 +100,13 @@ module FSM(
                 error = NE;
             end
             S5: begin
-                salida_1 = 2'b00; // Stop
-                salida_2 = 2'b00; // Stop
+                salida_1 = Stop;
+                salida_2 = Stop;
                 error = Error;
             end
             default: begin
-                salida_1 = 2'b00;
-                salida_2 = 2'b00;
+                salida_1 = Stop;
+                salida_2 = Stop;
                 error = NE;
             end
         endcase
