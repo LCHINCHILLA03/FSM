@@ -91,8 +91,8 @@ module FSM(
             end
             default: begin
             // En caso de estado inválido: volver a estado seguro
-                state <= S0;
-    end
+                state = S0;
+            end
         endcase
     end
 
