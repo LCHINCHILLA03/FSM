@@ -22,7 +22,7 @@ module FSM(input logic clk, reset,
         // next state logic
         always_comb
             case (state)
-                S0: if (O && NP == 2'b00) begin
+                S0: if ((O != 2'b00) && (NP == 2'b00)) begin
                        if (G1 == 2'b00 && G2 == 2'b00) begin
                             nextstate = S0;
                        end 
@@ -44,7 +44,7 @@ module FSM(input logic clk, reset,
                     else if(NP)begin
                         nextstate = S5;
                     end
-                S1:  if (O && NP == 2'b00) begin
+                S1:  if ((O != 2'b00) && (NP == 2'b00)) begin
                        if (G1 == 2'b00 && G2 == 2'b00) begin
                             nextstate = S0;
                        end 
@@ -66,7 +66,7 @@ module FSM(input logic clk, reset,
                     else if(NP)begin
                         nextstate = S5;
                     end
-                S2: if (O && NP == 2'b00) begin
+                S2: if ((O != 2'b00) && (NP == 2'b00)) begin
                        if (G1 == 2'b00 && G2 == 2'b00) begin
                             nextstate = S0;
                        end 
@@ -88,7 +88,7 @@ module FSM(input logic clk, reset,
                     else if(NP)begin
                         nextstate = S5;
                     end
-                S3: if (O && NP == 2'b00) begin
+                S3: if ((O != 2'b00) && (NP == 2'b00)) begin
                        if (G1 == 2'b00 && G2 == 2'b00) begin
                             nextstate = S0;
                        end 
@@ -110,7 +110,7 @@ module FSM(input logic clk, reset,
                     else if(NP)begin
                         nextstate = S5;
                     end
-                S4: if (O && NP == 2'b00) begin
+                S4: if ((O != 2'b00) && (NP == 2'b00)) begin
                        if (G1 == 2'b00 && G2 == 2'b00) begin
                             nextstate = S0;
                        end 
@@ -132,7 +132,7 @@ module FSM(input logic clk, reset,
                     else if(NP)begin
                         nextstate = S5;
                     end
-                S5: if (O && NP == 2'b00) begin
+                S5: if ((O != 2'b00) && (NP == 2'b00)) begin
                        if (G1 == 2'b00 && G2 == 2'b00) begin
                             nextstate = S0;
                        end 
