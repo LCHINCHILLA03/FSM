@@ -1,4 +1,4 @@
-`timescale 100ns / 1ps
+//`timescale 100ns / 1ps
 
 module FSM_Niveles(input logic clk, reset,
                    input logic [1:0]A, P,
