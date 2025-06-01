@@ -5,10 +5,10 @@ module FSM_Niveles(input logic clk, reset,
                    output logic [1:0]C, Pout);
         typedef enum logic [3:0] {S0, S1, S2, S3, S4, S5} statetype;     // Next state
         statetype state, nextstate;
-        typedef enum logic {No_Agua, Agua} outtype;      // output
-        outtype c;
-        typedef enum logic {Normal, Error} errortype;
-        errortype pout;
+        typedef enum logic {No_Agua = 1'b0, Agua = 1'b1} outtype;
+        typedef enum logic {Normal = 1'b0, Error = 1'b1} errortype;      // output
+        logic [1:0] c;
+        logic [1:0] pout;
         // state register
         always_ff  @(posedge clk, posedge reset)
             if (reset) state <= S0;
@@ -109,15 +109,16 @@ module FSM_Niveles(input logic clk, reset,
                 default: nextstate = S0;
             endcase
         // output logic pre-stage
-        always_comb 
+        always_comb
             case (state)
-                S0: begin c[0] = No_Agua; c[1] = No_Agua; pout[0] = Normal; pout[1] = Normal; end
-                S1: begin c[0] = Agua; c[1] = No_Agua; pout[0] = Normal; pout[1] = Normal; end
-                S2: begin c[0] = No_Agua; c[1] = Agua; pout[0] = Normal; pout[1] = Normal; end
-                S3: begin c[0] = No_Agua; c[1] = No_Agua; pout[0] = Error; pout[1] = Normal; end
-                S4: begin c[0] = No_Agua; c[1] = No_Agua; pout[0] = Normal; pout[1] = Error; end
-                S5: begin c[0] = Agua; c[1] = Agua; pout[0] = Normal; pout[1] = Error; end
-            endcase
+              S0: begin c = {No_Agua, No_Agua}; pout = {Normal, Normal}; end
+              S1: begin c = {No_Agua, Agua};     pout = {Normal, Normal}; end
+              S2: begin c = {Agua, No_Agua};     pout = {Normal, Normal}; end
+              S3: begin c = {No_Agua, No_Agua}; pout = {Normal, Error};  end
+              S4: begin c = {No_Agua, No_Agua}; pout = {Error, Normal};  end
+              S5: begin c = {Agua, Agua};       pout = {Error, Normal};  end
+        endcase
+
         // output logic
         assign C = c;
         assign Pout = pout;
