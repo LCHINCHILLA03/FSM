@@ -1,46 +1,49 @@
 # Tiny Tapeout project information
 project:
-  title:        ""      # Project title
-  author:       ""      # Your name
+  title:        "Control de agua"      # Project title
+  author:       "Luis"      # Your name
   discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  ""      # One line description of what your project does
-  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  description:  "FSM que controla la distribución y existencia de agua en un sistema de dos salidas de agua cada una conectada a dos pisos o tomas centrales"      # One line description of what your project does
+  language:     "SystemVerilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
+  clock_hz:     100000000       # Clock frequency in Hz (or 0 if not applicable)
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
 
   # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_example"
+  top_module:  "tt_um_luis"
 
   # List your project's source files here.
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "project.v"
+    - "FSM.sv"
+    - "FSM_1.sv"
+    - "FSM_Niveles.sv"
+    - "tt_um_luis.sv"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  ui[0]: "grifo 1 primer nivel"
+  ui[1]: "grifo 2 primer nivel"
+  ui[2]: "grifo 1 segundo nivel"
+  ui[3]: "grifo 2 segundo nivel"
+  ui[4]: "Paso agua primer nivel"
+  ui[5]: "Paso agua segundo nivel"
+  ui[6]: "Presion agua primer nivel"
+  ui[7]: "Presion agua segundo nivel"
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "led agua pasa primer grifo primer nivel"
+  uo[1]: "led agua pasa segundo grifo primer nivel"
+  uo[2]: "led agua pasa primer grifo segundo nivel"
+  uo[3]: "led agua pasa segundo grifo primer segundo"
+  uo[4]: "led agua primer nivel"
+  uo[5]: "led agua segundo nivel"
+  uo[6]: "led presión de agua primer nivel"
+  uo[7]: "led presión de agua segundo nivel"
 
   # Bidirectional pins
   uio[0]: ""
