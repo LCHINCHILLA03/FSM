@@ -225,6 +225,11 @@ module FSM(input logic clk, reset,
             salida_2 = {Stop, Stop};
             error = Error; 
         end
+           default: begin
+            salida_1 = {Stop, Stop};
+            salida_2 = {Stop, Stop};
+            error = NE;
+           end
     endcase
 end
             assign R1 = salida_1;
