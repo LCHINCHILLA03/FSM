@@ -15,6 +15,7 @@ module FSM_Niveles(input logic clk, reset,
             else state <= nextstate;
         // next state logic
         always_comb
+            nextstate = S0;
             case (state)
                 S0: if (A == 2'b00 && P == 2'b00) begin 
                         nextstate = S0;
