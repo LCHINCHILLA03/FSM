@@ -27,13 +27,12 @@ module tt_um_luis(
         .A(ui_in[5:4]),
         .P(ui_in[7:6]),
         .E(uo_out[1:0]),
-        .R1(uo_out[3:2]),
-        .R2(uo_out[5:4])
+        .R1(uo_out[5:2]),
+        .R2({uo_out[7:6],uio_out[1:0]})
     );
 
     // Asignar el resto de salidas que no se usan
-    assign uo_out[7:6] = 2'b00;
-    assign uio_out     = 8'b0;
+    assign uio_out [7:2]    = 6'b0;
     assign uio_oe      = 8'b0;
 
 endmodule
