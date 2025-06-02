@@ -109,7 +109,9 @@ module FSM_Niveles(input logic clk, reset,
                 default: nextstate = S0;
             endcase
         // output logic pre-stage
-        always_comb
+        always_comb begin
+            c     = 2'b00;
+            pout  = 2'b00;
             case (state)
               S0: begin c = {No_Agua, No_Agua}; pout = {Normal, Normal}; end
               S1: begin c = {No_Agua, Agua};     pout = {Normal, Normal}; end
@@ -117,8 +119,13 @@ module FSM_Niveles(input logic clk, reset,
               S3: begin c = {No_Agua, No_Agua}; pout = {Normal, Error};  end
               S4: begin c = {No_Agua, No_Agua}; pout = {Error, Normal};  end
               S5: begin c = {Agua, Agua};       pout = {Error, Normal};  end
-        endcase
-
+              default: begin
+                c    = 2'b00;
+                pout = 2'b00;
+              end
+            endcase
+        end
+  
         // output logic
         assign C = c;
         assign Pout = pout;
