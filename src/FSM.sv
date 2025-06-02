@@ -10,8 +10,8 @@ module FSM(input logic clk, reset,
         typedef enum logic [2:0] {S0, S1, S2, S3, S4, S5} statetype;
         statetype state, nextstate;
         // coding outs
-        typedef enum logic [1:0] {Stop, Agua} outtype;
-        outtype salida_1, salida_2;
+        typedef enum logic {Stop, Agua} outtype;
+           outtype [1:0]salida_1, salida_2;
         //coding erros
         typedef enum logic [1:0]{Error, NE} errortype;
         errortype error;
