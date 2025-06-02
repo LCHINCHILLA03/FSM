@@ -3,7 +3,8 @@
 module FSM(
     input  logic clk, reset,
     input  logic [1:0] G1, G2, A, P,
-    output logic [1:0] R1, R2, E
+    output logic [3:0] R1, R2, 
+    output logic [1:0] E
 );
 
     // Señales internas para FSM_Niveles
@@ -36,6 +37,7 @@ module FSM(
 
     // Lógica de transición de estado
     always_comb begin
+        nextstate = S0;
         case (state)
             S0: if ((O != 2'b00) && (NP == 2'b00)) begin
                     if (G1 == 2'b00 && G2 == 2'b00)                           nextstate = S0;
@@ -144,6 +146,13 @@ module FSM(
             end
             S5: begin
                 error = Error;
+            end
+            default: begin
+                salida_1_1 = Stop;
+                salida_1_2 = Stop;
+                salida_2_1 = Stop;
+                salida_2_2 = Stop;
+                error = NE;
             end
         endcase
     end
