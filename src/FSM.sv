@@ -159,19 +159,19 @@ module FSM(input logic clk, reset,
             endcase
             // pre-stage output logic
             always_comb begin
-    case (state)
-        salida_1_1 = Stop;
-        salida_1_2 = Stop;
-        salida_2_1 = Stop;
-        salida_2_2 = Stop;
-        error = NE;
-        S0: begin 
-        salida_1_1 = Stop;
-        salida_1_2 = Stop;
-        salida_2_1 = Stop;
-        salida_2_2 = Stop;
-        error = NE;
-        end
+               case (state)
+                   salida_1_1 = Stop;
+                   salida_1_2 = Stop;
+                   salida_2_1 = Stop;
+                   salida_2_2 = Stop;
+                   error = NE;
+         S0: begin 
+                   salida_1_1 = Stop;
+                   salida_1_2 = Stop;
+                   salida_2_1 = Stop;
+                   salida_2_2 = Stop;
+                   error = NE;
+         end
          S1: begin
                 if (G1 == 2'b01) begin
                     salida_1_1 = Agua;
