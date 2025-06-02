@@ -10,8 +10,9 @@ module FSM(input logic clk, reset,
         typedef enum logic [2:0] {S0, S1, S2, S3, S4, S5} statetype;
         statetype state, nextstate;
         // coding outs
-        typedef enum logic {Stop, Agua} outtype;
-           outtype [1:0]salida_1, salida_2;
+        typedef enum logic [1:0] {Stop = 2'b00, Agua = 2'b01} outtype;
+        outtype salida_1_1, salida_1_2;
+        outtype salida_2_1, salida_2_2;
         //coding erros
         typedef enum logic [1:0]{Error, NE} errortype;
         errortype error;
@@ -159,80 +160,85 @@ module FSM(input logic clk, reset,
             // pre-stage output logic
             always_comb begin
     case (state)
+        salida_1_1 = Stop;
+        salida_1_2 = Stop;
+        salida_2_1 = Stop;
+        salida_2_2 = Stop;
+        error = NE;
         S0: begin 
-            salida_1 = {Stop, Stop}; 
-            salida_2 = {Stop, Stop}; 
-            error = NE; 
+        salida_1_1 = Stop;
+        salida_1_2 = Stop;
+        salida_2_1 = Stop;
+        salida_2_2 = Stop;
+        error = NE;
         end
-        S1: begin
-            if (G1 == 2'b01) begin
-                salida_1 = {Agua, Stop};
-                salida_2 = {Stop, Stop};
-                error = NE;
-            end else if (G1 == 2'b10) begin
-                salida_1 = {Stop, Agua};
-                salida_2 = {Stop, Stop};
+         S1: begin
+                if (G1 == 2'b01) begin
+                    salida_1_1 = Agua;
+                    salida_1_2 = Stop;
+                    salida_2_1 = Stop;
+                    salida_2_2 = Stop;
+                    error = NE;
+                end else if (G1 == 2'b10) begin
+                    salida_1_1 = Stop;
+                    salida_1_2 = Agua;
+                    salida_2_1 = Stop;
+                    salida_2_2 = Stop;
+                    error = NE;
+                end
+            end
+            S2: begin
+                salida_1_1 = Agua;
+                salida_1_2 = Agua;
+                salida_2_1 = Agua;
+                salida_2_2 = Agua;
                 error = NE;
             end
-        end
-        S2: begin 
-            salida_1 = {Agua, Agua};
-            salida_2 = {Agua, Agua};
-            error = NE; 
-        end
-        S3: begin
-            if (G2 == 2'b01) begin
-                salida_1 = {Stop, Stop};
-                salida_2 = {Agua, Stop};
-                error = NE;
-            end else if (G2 == 2'b10) begin
-                salida_1 = {Stop, Stop};
-                salida_2 = {Stop, Agua};
-                error = NE;
+            S3: begin
+                if (G2 == 2'b01) begin
+                    salida_1_1 = Stop;
+                    salida_1_2 = Stop;
+                    salida_2_1 = Agua;
+                    salida_2_2 = Stop;
+                    error = NE;
+                end else if (G2 == 2'b10) begin
+                    salida_1_1 = Stop;
+                    salida_1_2 = Stop;
+                    salida_2_1 = Stop;
+                    salida_2_2 = Agua;
+                    error = NE;
+                end
             end
-        end
-        S4: begin 
-            if (G1 == 2'b01 || G2 == 2'b01) begin
-                salida_1 = {Agua, Stop};
-                salida_2 = {Agua, Stop};
-                error = NE;
-            end else if (G1 == 2'b01 || G2 == 2'b10) begin
-                salida_1 = {Agua, Stop};
-                salida_2 = {Stop, Agua};
-                error = NE;
-            end else if (G1 == 2'b01 || G2 == 2'b11) begin
-                salida_1 = {Agua, Stop};
-                salida_2 = {Agua, Agua};
-                error = NE;
+            S4: begin
+                if (G1 == 2'b01 || G2 == 2'b01) begin
+                    salida_1_1 = Agua;
+                    salida_1_2 = Stop;
+                    salida_2_1 = Agua;
+                    salida_2_2 = Stop;
+                    error = NE;
+                end else if (G1 == 2'b10 || G2 == 2'b10) begin
+                    salida_1_1 = Stop;
+                    salida_1_2 = Agua;
+                    salida_2_1 = Stop;
+                    salida_2_2 = Agua;
+                    error = NE;
+                end
             end
-            
-            if (G1 == 2'b10 || G2 == 2'b01) begin
-                salida_1 = {Stop, Agua};
-                salida_2 = {Agua, Stop};
-                error = NE;
-            end else if (G1 == 2'b10 || G2 == 2'b10) begin
-                salida_1 = {Stop, Agua};
-                salida_2 = {Stop, Agua};
-                error = NE;
-            end else if (G1 == 2'b10 || G2 == 2'b11) begin
-                salida_1 = {Stop, Agua};
-                salida_2 = {Agua, Agua};
-                error = NE;
+            S5: begin
+                error = Error;
+                salida_1_1 = Stop;
+                salida_1_2 = Stop;
+                salida_2_1 = Stop;
+                salida_2_2 = Stop;
             end
-        end
-        S5: begin 
-            salida_1 = {Stop, Stop};
-            salida_2 = {Stop, Stop};
-            error = Error; 
-        end
-           default: begin
-            salida_1 = {Stop, Stop};
-            salida_2 = {Stop, Stop};
-            error = NE;
-           end
-    endcase
-end
-            assign R1 = salida_1;
-            assign R2 = salida_2;
-            assign E = error;
+            default: begin
+                // nada
+            end
+        endcase
+    end
+
+    assign R1 = {salida_1_1, salida_1_2};
+    assign R2 = {salida_2_1, salida_2_2};
+    assign E = error;
+
 endmodule
