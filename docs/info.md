@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+Máquina de estados finitos que controla la presión y flujo de agua de una toma central y la redirecciona a dos pasos de agua independientes con dos salidas por cada paso de agua.
 
 ## How to test
 
-Explain how to use your project
+Si hay presión y flujo de agua el sistema esta activo y según que salida se abra dejara pasar el agua por ella, caso que exista falla en la presión y/o flujo de agua el sistema se detendra.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+dipswitches para 4 salidas de agua, 2 para cada medidor de presión y flujo de agua y leds para indicar que cada presión y flujo esten correctos.
